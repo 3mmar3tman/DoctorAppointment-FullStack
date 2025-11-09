@@ -4,7 +4,7 @@
 // import multer from "multer";
 
 const express = require("express");
-const Departments = require("../models/Departments");
+const Departments = require("../models/DepartmentSchema");
 const auth = require("../auth/Middleware");
 const multer = require("multer");
 const router = express.Router();
