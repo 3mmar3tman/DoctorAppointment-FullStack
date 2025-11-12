@@ -21,6 +21,7 @@ router.post("/addDoctors", upload.single("image"), async (req, res) => {
     const { name, specialty, description, experienceYears } = req.body;
 
     const image = req.file ? req.file.filename : null;
+
     if (!name || !specialty || !description || !experienceYears || !image)
       return res.status(400).json({ message: "all Fields are required" });
 
@@ -33,17 +34,40 @@ router.post("/addDoctors", upload.single("image"), async (req, res) => {
     });
 
     const savedDoctors = await newDoctor.save();
-
     res.status(201).json(savedDoctors);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error });
   }
 });
-router.get("/getDoctors", async (req, res) => {
-  const doctors = await Doctor.find();
-  res.status(200).json(doctors);
+
+router.get("/count", async (req, res) => {
+  try {
+    const doctorCount = await Doctor.countDocuments();
+    res.status(200).json({ count: doctorCount });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "error in counting doctors" });
+  }
 });
+router.get("/allDoctors", async (req, res) => {
+  const doctors = await Doctor.find();
+
+  res.json(doctors);
+});
+router.get("/doctor/bySpecialty/:specialty", async (req, res) => {
+  const specialty = req.params.specialty;
+  try {
+    const doctors = await Doctor.find({
+      specialty: { $regex: new RegExp(specialty, "i") },
+    });
+    res.status(200).json(doctors);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
 router.get("/getDoctor/:id", async (req, res) => {
   const doctorId = req.params.id;
   //   const doctor = await Doctor.findById(doctorId);
@@ -59,5 +83,4 @@ router.get("/getDoctor/:id", async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 });
-
 module.exports = router;

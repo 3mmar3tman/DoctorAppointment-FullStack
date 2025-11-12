@@ -14,7 +14,7 @@ function Navbar() {
                 <li><Link to="/">Home</Link></li>
                  <li><Link to="/">Services</Link></li>
 
-                  <li><Link to="/">About</Link></li>
+                  <li><Link to="/About">About</Link></li>
 
                   {user?.role === "admin" &&(
                     <>
@@ -31,7 +31,7 @@ function Navbar() {
                   {!user &&(
                     <>
                      <li><Link to="/login">Login</Link></li>
-                 <li><Link to="/register">Register</Link></li>
+                     <li><Link to="/register">Register</Link></li>
                     </>
                   )}
 
