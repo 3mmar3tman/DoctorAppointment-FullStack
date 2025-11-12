@@ -1,4 +1,6 @@
 node_modules/
 .env
 
+uploads/node_modules/
+frontend/frontendreact/node_modules/
 uploads/
